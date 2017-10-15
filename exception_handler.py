@@ -1,6 +1,3 @@
-from flask import jsonify
-
-
 class RestfulException(Exception):
     status_code = 400
 

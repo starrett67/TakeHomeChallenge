@@ -8,9 +8,10 @@ class ValidUAOpener(FancyURLopener):
     version = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; it; rv:1.8.1.11)'
 
 
-class PhoneNumberEntry:
+class PhoneNumberEntry(object):
     def __init__(self, phone_number, report_count, comment):
-        self.area_code = phone_number[:3]
+        formatted_number = phone_number.replace('(', '').replace(')', '')
+        self.area_code = formatted_number[:3]
         self.phone_number = phone_number
         self.report_count = report_count
         self.comment = comment.replace('"', '\\"')
@@ -26,7 +27,7 @@ class PhoneNumberEntry:
         return unicode(self).encode('utf-8')
 
 
-class Parser:
+class Parser(object):
     def __init__(self, html):
         self.soup = BeautifulSoup(html, 'html.parser')
 
@@ -41,9 +42,8 @@ class Parser:
             'ul', id='previews').find_all('li', class_='oos_listItem')
         return map(self.entry_parse, latest_entries)
 
+
 # Main
-
-
 if __name__ == "__main__":
     parser = Parser(ValidUAOpener().open(PHONE_SITE).read())
     print parser.parse()

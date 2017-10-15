@@ -1,7 +1,6 @@
 import requests
 import pytest
 import os
-import json
 
 host = os.getenv('HOST', 'localhost')
 port = os.getenv('PORT', '5000')
@@ -23,11 +22,11 @@ status_tests = [
     ("results?count=99", 200),
     ("results?count=abc", 400),
     ("results?count=0", 200),
-    ("resultsForArea/770", 200),
-    ("resultsForArea/555", 404),
-    ("resultsForArea/770?count=1", 200),
-    ("resultsForArea/770?count=99", 200),
-    ("resultsForArea/770?count=0", 200),
+    ("results?area_code=770", 200),
+    ("results?area_code=555", 404),
+    ("results?area_code=770&count=1", 200),
+    ("results?area_code=770&count=99", 200),
+    ("results?area_code=770&count=0", 200),
     ("asdfasldfasdlfk", 404)
 ]
 
@@ -45,7 +44,7 @@ def test_validate_json_types(get):
         phone_number = number['phone_number']
         report_count = number['report_count']
         comment = number['comment']
-        assert type(area_code) is unicode
-        assert type(phone_number) is unicode
-        assert type(report_count) is unicode
-        assert type(comment) is unicode
+        assert isinstance(area_code, unicode)
+        assert isinstance(phone_number, unicode)
+        assert isinstance(report_count, unicode)
+        assert isinstance(comment, unicode)
