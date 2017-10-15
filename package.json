@@ -1,0 +1,28 @@
+{
+  "name": "take_home_challenge",
+  "version": "1.0.0",
+  "description": "Watch me test this restful api",
+  "main": "python app.py",
+  "scripts": {
+    "test": "node node_modules/mocha/bin/_mocha chakram_tests --reporter mocha-junit-and-console-reporter",
+    "start": "pip install -r requirements.txt && python app.py"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/starrett67/TakeHomeChallenge.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/starrett67/TakeHomeChallenge/issues"
+  },
+  "homepage": "https://github.com/starrett67/TakeHomeChallenge#readme",
+  "devDependencies": {
+    "chakram": "^1.5.0",
+    "mocha": "^4.0.1",
+    "mocha-junit-and-console-reporter": "^1.6.0"
+  },
+  "dependencies": {
+    "mocha-junit-reporter": "^1.15.0"
+  }
+}

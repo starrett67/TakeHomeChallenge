@@ -1,0 +1,19 @@
+version: '2'
+services:
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile.Test
+    links:
+      - app
+    environment:
+      - HOST=app
+      - PORT=5000
+      - MOCHA_FILE=/InterviewTests/results/test_results.xml
+    volumes:
+      - ./results:/InterviewTests/results
+
+  app:
+    build: .
+    ports:
+      - "5000:5000"
