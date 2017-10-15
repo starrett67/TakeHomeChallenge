@@ -4,3 +4,4 @@
 .cache/v/cache/lastfailed
 node_modules/**
 **/test_results.xml
+test-results.xml

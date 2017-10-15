@@ -10,7 +10,8 @@ class ValidUAOpener(FancyURLopener):
 
 class PhoneNumberEntry:
     def __init__(self, phone_number, report_count, comment):
-        self.area_code = phone_number[:3]
+        formatted_number = phone_number.replace('(', '').replace(')', '')
+        self.area_code = formatted_number[:3]
         self.phone_number = phone_number
         self.report_count = report_count
         self.comment = comment.replace('"', '\\"')

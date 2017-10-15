@@ -28,17 +28,12 @@ class PhoneDataLayer:
                             entry.phone_number, entry.report_count, entry.comment])
         con.close()
 
-    def get_all_entries(self):
-        parser = scraper.Parser(
-            scraper.ValidUAOpener().open(scraper.PHONE_SITE).read())
-        entries = parser.parse()
-        self.insert_entries(entries)
-
+    def get_db_entries(self):
         con = lite.connect('numbers.db')
         rows = None
         with con:
             cur = con.cursor()
-            cur.execute('SELECT * FROM Numbers ORDER BY date;')
+            cur.execute('SELECT * FROM Numbers ORDER BY date')
             rows = cur.fetchall()
 
         entries = []
@@ -49,35 +44,21 @@ class PhoneDataLayer:
         con.close()
         return entries
 
-    def get_db_entries(self, n=60):
-        con = lite.connect('numbers.db')
-        rows = None
-        with con:
-            cur = con.cursor()
-            cur.execute(
-                'SELECT * FROM Numbers ORDER BY date LIMIT {}'.format(n))
-            rows = cur.fetchall()
-
-        entries = []
-        for row in rows:
-            entries[len(entries):] = [
-                scraper.PhoneNumberEntry(row[0], row[1], row[2])]
-
-        con.close()
-        return entries
-
-    def get_entries(self, n=None):
+    def get_entries(self, count=None, area_code=None):
         parser = scraper.Parser(
             scraper.ValidUAOpener().open(scraper.PHONE_SITE).read())
         entries = parser.parse()
         self.insert_entries(entries)
+        return_entries = self.get_db_entries()
 
-        if n is None or n < 0:
-            return entries
-        elif n < len(entries):
-            return entries[:n]
-        else:
-            try:
-                return self.get_db_entries(n)
-            except:
-                raise RestfulException('Invalid count given', status_code=400)
+        if count is None or count < 1:
+            count = 60
+
+        if area_code is not None:
+            return_entries = [
+                entry for entry in return_entries if entry.area_code == area_code]
+
+        if count <= len(return_entries):
+            return_entries = return_entries[:count]
+
+        return return_entries

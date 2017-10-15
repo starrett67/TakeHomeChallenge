@@ -58,4 +58,10 @@ describe('results/', () => {
         expect(response).to.have.status(400);
         return chakram.wait();
     });
+
+    it('should respond with 404 when no results are found with area code', () => {
+        var response = chakram.get(url + '?area_code=555');
+        expect(response).to.have.status(404);
+        return chakram.wait();
+    })  
 });
