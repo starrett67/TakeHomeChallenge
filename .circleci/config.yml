@@ -31,3 +31,5 @@ jobs:
       - store_artifacts:
           path: results
           destination: test-reports
+      - store_test_results:
+          path: results
