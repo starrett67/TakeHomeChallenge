@@ -1,0 +1,6 @@
+FROM node
+ADD ./package.json /InterviewTests/
+ADD ./chakram_tests /InterviewTests/chakram_tests/
+WORKDIR /InterviewTests/
+RUN npm install
+CMD npm test
