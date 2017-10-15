@@ -17,6 +17,12 @@ jobs:
       - checkout
 
       - run:
+          name: Install Curl
+          command: |
+            apt-get update
+            apt-get intall curl -y
+
+      - run:
           name: Install Docker Compose
           command: |
             set -x
