@@ -1,9 +1,8 @@
 import sqlite3 as lite
 import scraper
-from exception_handler import RestfulException
 
 
-class PhoneDataLayer:
+class PhoneDataLayer(object):
     def __init__(self, db='numbers.db'):
         con = None
         try:

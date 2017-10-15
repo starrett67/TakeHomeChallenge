@@ -10,7 +10,6 @@ describe('results/', () => {
     const url = util.format('%s/%s', baseAddress, 'results');
 
     it('should respond with valid types', () => {
-        console.log(url);
         var response = chakram.get(url);
         expect(response).to.have.status(200);
         expect(response).to.have.schema({
@@ -63,5 +62,35 @@ describe('results/', () => {
         var response = chakram.get(url + '?area_code=555');
         expect(response).to.have.status(404);
         return chakram.wait();
-    })  
+    });
+
+    it('should respond with 200 when an area code exist', () => {
+        var response = chakram.get(url + '?area_code=770');
+        expect(response).to.have.status(200);
+        expect(response).to.have.json(numbers => {
+            expect(numbers.length).to.be.above(0);
+        });
+        return chakram.wait();
+    });
+
+    it('should respond with 200 with valid area code and valid count', () => {
+        var response = chakram.get(url + '?area_code=770&count=1');
+        expect(response).to.have.status(200);
+        expect(response).to.have.json(numbers => {
+            expect(numbers.length).to.be.above(0);
+        });
+        return chakram.wait();
+    });
+
+    it('should have status 400 with invalid count but valid area code', () => {
+        var response = chakram.get(url + '?count=abcd&area_code=770');
+        expect(response).to.have.status(400);
+        return chakram.wait();
+    });
+
+    it('should have status 404 with valid count but invalid area code', () => {
+        var response = chakram.get(url + '?count=1&area_code=abc');
+        expect(response).to.have.status(404);
+        return chakram.wait();
+    });
 });
